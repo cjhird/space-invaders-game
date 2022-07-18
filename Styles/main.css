@@ -1,0 +1,86 @@
+body{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: aqua;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  width: 50rem;
+  height: 100vh;
+  margin: 0;
+  background-color: blueviolet;
+}
+
+/* TITLE */
+
+.top {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 10%;
+  background-color: yellow;
+}
+
+/* SCORE & LIVES */
+
+.mid-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 5%;
+  background-color: tomato;
+}
+
+.score-div {
+  margin-left: 0.5rem;
+  width: 13%;
+  height: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: blueviolet;
+}
+
+.lives-div {
+  margin-right: 0.5rem;
+  width: 13%;
+  height: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: blueviolet;
+}
+
+/* GAME GRID */
+
+.mid-game {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 50%;
+  background-color: springgreen;
+}
+
+/* BOTTOM */
+
+.bottom {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-start;
+  width: 100%;
+  height: 35%;
+  background-color: red;
+}
+
+.mute {
+  margin-top: 0.5rem;
+  margin-right: 0.5rem;
+}
