@@ -60,13 +60,21 @@ main {
 
 /* GAME GRID */
 
-.mid-game {
+.game-grid {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-wrap: wrap;
   width: 100%;
-  height: 50%;
-  background-color: springgreen;
+  height: 47%;
+  background-color: black;
+}
+
+.game-grid div {
+  border: 1px solid lightgrey;
+  flex-grow: 1;
+  height: 8.5%;
+  width: 8.5%;
 }
 
 /* BOTTOM */
@@ -83,4 +91,22 @@ main {
 .mute {
   margin-top: 0.5rem;
   margin-right: 0.5rem;
+}
+
+/* CHARACTER CLASSES */
+
+.invader {
+  background-image: url();
+}
+
+.spaceship {
+  background-image: url();
+}
+
+.laser {
+  background-image: url();
+}
+
+.boom {
+  background-image: url();
 }

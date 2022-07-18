@@ -13,7 +13,7 @@ function init() {
 
 
   // Elements
-  // ? grid
+  const grid = document.querySelector('.game-grid')
 
   // Variables
   // ? scoreBoard - to span element
@@ -25,8 +25,12 @@ function init() {
   // ? invadersId
   // ? spaceshipIndex
   // ? invadersRemoved
-
   // ? invaders array
+
+  const width = 11
+  const cellCount = width * width
+  const cells = []
+
   // 
 
   // Execution
@@ -36,6 +40,20 @@ function init() {
   // Every loop a new div element will be created and appended to the grid element above
   // use innertext to create cell index numbers to help in the development of the grid movement 
   // - to be removed after dev and stored as a value
+
+  function createGrid() {
+    for (let i = 0; i < cellCount; i++) {
+      const cell = document.createElement('div')
+      cell.innerText = i
+      cell.dataset.index = i
+      cells.push(cell)
+      grid.appendChild(cell)
+      cell.style.backgroundColor = 'grey'
+    }
+    console.log('CREATE GRID FUNCTION')
+  }
+  createGrid()
+
 
   // ?? CHANGE CHARACTER CLASSES
 
