@@ -71,7 +71,7 @@ main {
 }
 
 .game-grid div {
-  border: 1px solid lightgrey;
+  /* border: 1px solid lightgrey; */
   color: white;
   flex-grow: 1;
   height: 8.5%;
@@ -99,19 +99,27 @@ main {
 .invader {
   background-image: url('../images/invader.png');
   background-repeat:no-repeat;
-  background-size:contain;
+  background-size: 3.5rem;
+  background-position: center;
 }
 
 .spaceship {
   background-image: url('../images/spaceship.png');
   background-repeat:no-repeat;
   background-size:contain;
+  background-position: center;
 }
 
 .laser {
-  background-color: white;
+  background-image: url('../images/laser.png');
+  background-repeat:no-repeat;
+  background-size: 0.5rem;
+  background-position: center;
 }
 
-.boom {
-  background-color: orange;
+.explosion {
+  background-image: url('../images/explosion.png');
+  background-repeat:no-repeat;
+  background-size:contain;
+  background-position: center;
 }
