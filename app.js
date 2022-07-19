@@ -14,9 +14,9 @@ function init() {
 
   // Elements
   const grid = document.querySelector('.game-grid')
+  const scoreBoard = document.querySelector('.score')
 
   // Variables
-  // ? scoreBoard - to span element
   // ? width = 11
   // ? cellcount = width * width
   // ? gameScore
@@ -30,42 +30,50 @@ function init() {
   const width = 11
   const cellCount = width * width
   const cells = []
+  let invadersRemoved = []
+  let currrentSpaceshipIndex = 115
+  
+  // ? Generate grid cells
+  for (let i = 0; i < cellCount; i++) {
+    const cell = document.createElement('div')
+    cell.innerText = i
+    cell.dataset.index = i
+    cells.push(cell)
+    grid.appendChild(cell)
+  }
+  console.log('GRID HAS BEEN CREATED!')
+  console.log(cells)
 
-  // 
+  const invaders = [
+    2,3,4,5,6,7,8,
+    13,14,15,16,17,18,19,
+    24,25,26,27,28,29,30
+  ]
 
   // Execution
-  // ? Generate grid cells
-  // This function finds the cellCount and makes a new element on every loop, attaching it to the grid container
-  // will loop through a set number of times based on the cellCount
-  // Every loop a new div element will be created and appended to the grid element above
-  // use innertext to create cell index numbers to help in the development of the grid movement 
-  // - to be removed after dev and stored as a value
-
-  function createGrid() {
-    for (let i = 0; i < cellCount; i++) {
-      const cell = document.createElement('div')
-      cell.innerText = i
-      cell.dataset.index = i
-      cells.push(cell)
-      grid.appendChild(cell)
-      cell.style.backgroundColor = 'grey'
-    }
-    console.log('CREATE GRID FUNCTION')
-  }
-  createGrid()
-
-
   // ?? CHANGE CHARACTER CLASSES
 
   // ? set invaders grid position - add class
-  // use for loop to add invader class to cells 
-  // uses invaders array to target cell
+  function addInvaders() {
+    for (let i = 0; i < invaders.length; i++) {
+      if (!invadersRemoved.includes(i)) {
+        cells[invaders[i]].classList.add('invader')
+      }
+      console.log('INVADER ADD FUNCTION LOOP')
+    }
+  }
+  addInvaders()
+
   // ? clears invaders grid position - remove class
-  // use for loop to remove invader class to cells 
-  // uses invaders array to target cell
+  function removeInvaders() {
+    for (let i = 0; i < invaders.length; i++) {
+      cells[invaders[i]].classList.remove('invader')
+      console.log('INVADER REMOVE FUNCTION LOOP')
+    }
+  }
 
   // ? add spaceship class
-  // takes in a position argument then adds the spaceship class to given cell
+  cells[currrentSpaceshipIndex].classList.add('spaceship')
   // ? remove spaceship class
   // takes in a position argument then removes the spaceship class to given cell
 
@@ -77,29 +85,43 @@ function init() {
 
   // ?? CHARACTER MOVEMENTS
 
-  // ? Invader auto movement function
-  // remove from current position
-  // if invader reach left or right grid edge then switch direction of all invaiders
-  // on edge move down by one
-  // incr positon by one
-
-  // if spaceship class contains bomb: then remove life from playerLives
-  // if spaceship class contains invader: run gameOver function
-  // ...also when gameover execute clear interval
-
-
-  // use set interval to call function after x seconds - to repeat
-
   // ? Spaceship movement function
   // const keyCode = event.keyCode
   // const left = 37
   // const right = 39
-
   // remove spaceship from current position
   // check keycode on the event and match with direction using if else statements
   // change value of spaceshipIndex
   // then add spaceship to current position
   // if spaceship reach left or right grid edge then add/remove from spaceshipIndex
+
+  function moveSpaceship(event) {
+    cells[currrentSpaceshipIndex].classList.remove('spaceship')
+    switch (event.key) {
+      case 'ArrowLeft' :
+        if (currrentSpaceshipIndex % width !== 0) currrentSpaceshipIndex -= 1
+        break
+      case 'ArrowRight' :
+        if (currrentSpaceshipIndex % width < width - 1) currrentSpaceshipIndex += 1
+        break
+    }
+    console.log('SPACESHIP HAS MOVED')
+    cells[currrentSpaceshipIndex].classList.add('spaceship')
+  }
+  document.addEventListener('keydown', moveSpaceship)
+
+
+  // ? Invader auto movement function
+  // remove from current position
+  // if invader reach left or right grid edge then switch direction of all invaiders
+  // on edge move down by one
+  // incr positon by one
+  // if spaceship class contains bomb: then remove life from playerLives
+  // if spaceship class contains invader: run gameOver function
+  // ...also when gameover execute clear interval
+  // use set interval to call function after x seconds - to repeat
+
+
 
   // ? Shoot function
   // laserId variable

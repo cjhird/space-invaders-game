@@ -11,7 +11,7 @@ main {
   justify-content: flex-start;
   align-items: center;
   width: 50rem;
-  height: 100vh;
+  height: 100rem;
   margin: 0;
   background-color: blueviolet;
 }
@@ -23,7 +23,7 @@ main {
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 10%;
+  height: 10rem;
   background-color: yellow;
 }
 
@@ -34,7 +34,7 @@ main {
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  height: 5%;
+  height: 5rem;
   background-color: tomato;
 }
 
@@ -66,12 +66,13 @@ main {
   align-items: center;
   flex-wrap: wrap;
   width: 100%;
-  height: 47%;
+  height: 50rem;
   background-color: black;
 }
 
 .game-grid div {
   border: 1px solid lightgrey;
+  color: white;
   flex-grow: 1;
   height: 8.5%;
   width: 8.5%;
@@ -84,7 +85,7 @@ main {
   justify-content: flex-end;
   align-items: flex-start;
   width: 100%;
-  height: 35%;
+  height: 35rem;
   background-color: red;
 }
 
@@ -96,17 +97,21 @@ main {
 /* CHARACTER CLASSES */
 
 .invader {
-  background-image: url();
+  background-image: url('../images/invader.png');
+  background-repeat:no-repeat;
+  background-size:contain;
 }
 
 .spaceship {
-  background-image: url();
+  background-image: url('../images/spaceship.png');
+  background-repeat:no-repeat;
+  background-size:contain;
 }
 
 .laser {
-  background-image: url();
+  background-color: white;
 }
 
 .boom {
-  background-image: url();
+  background-color: orange;
 }

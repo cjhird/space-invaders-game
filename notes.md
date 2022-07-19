@@ -11,6 +11,7 @@ Workflow:
 4. Create the game colour scheme and design pattern
 
 5. Find/download the resources (images, sounds)
+  https://www.classicgaming.cc/classics/space-invaders/graphics
 
 7. Start writing code! - build MVP first
     1. html
