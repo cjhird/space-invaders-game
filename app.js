@@ -179,11 +179,13 @@ function init() {
     let laserAuto
     let currentLaserIndex = currrentSpaceshipIndex
     function moveLaser() {
-      cells[currentLaserIndex].classList.remove('laser')
-      currentLaserIndex -= width
-      cells[currentLaserIndex].classList.add('laser')
-      
-
+      if (currentLaserIndex <= 0) {
+        clearInterval(laserAuto)
+      } else { 
+        cells[currentLaserIndex].classList.remove('laser')
+        currentLaserIndex -= width
+        cells[currentLaserIndex].classList.add('laser')
+      }
       // when laser collides with invader: remove invader and run explosion
       if (cells[currentLaserIndex].classList.contains('invader')) {
         cells[currentLaserIndex].classList.remove('laser')
@@ -191,16 +193,16 @@ function init() {
         cells[currentLaserIndex].classList.add('explosion')
         audio.src = 'sounds/invader-destroyed.wav'
         audio.play()
-
+      
         setTimeout(() => cells[currentLaserIndex].classList.remove('explosion'), 300)
         clearInterval(laserAuto)
-
+      
         // record destroyed invaders
         const invaderRemoved = invaders.indexOf(currentLaserIndex)
         invadersRemoved.push(invaderRemoved)
         // console.log('INVADER HAS BEEN DESTROYED')
         // console.log(`INVADERS DESTROYED = ${invadersRemoved}`)
-
+      
         // update gameScore variable
         gameScore += 100
         scoreBoard.innerHTML = gameScore
@@ -233,6 +235,36 @@ function init() {
   // update scoreBoard with gameScore use innerHTML
   // console log invadersRemoved
   // use set interval to repeat laser movement function - laser moves up grid
+
+
+
+  // ? Invader Bombing function
+  // 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

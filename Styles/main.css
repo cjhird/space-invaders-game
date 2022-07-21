@@ -2,7 +2,9 @@ body{
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: aqua;
+  background-color: black;
+  font-family: 'Press Start 2P', cursive;
+  color: rgb(85, 215, 34);
 }
 
 main {
@@ -13,7 +15,7 @@ main {
   width: 50rem;
   height: 100rem;
   margin: 0;
-  background-color: blueviolet;
+  /* background-color: blueviolet; */
 }
 
 /* TITLE */
@@ -24,8 +26,25 @@ main {
   align-items: center;
   width: 100%;
   height: 10rem;
-  background-color: yellow;
+  background-color: black;
+  margin-bottom: 2rem;
 }
+
+.logo-background {
+width: 100%;
+height: 100%;
+display: flex;
+justify-content: center;
+align-items: center;
+}
+
+.logo-background img {
+  width: 25rem;
+  height: 100%;
+  visibility: hidden;
+}
+
+
 
 /* SCORE & LIVES */
 
@@ -34,28 +53,29 @@ main {
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  height: 5rem;
-  background-color: tomato;
+  height: 4rem;
+  background-color: black;
 }
 
 .score-div {
   margin-left: 0.5rem;
-  width: 13%;
+  width: 25%;
   height: 50%;
+  padding-left: 5px;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
-  background-color: blueviolet;
+  /* background-color: blueviolet; */
 }
 
 .lives-div {
   margin-right: 0.5rem;
-  width: 13%;
+  width: 15%;
   height: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: blueviolet;
+  /* background-color: blueviolet; */
 }
 
 /* GAME GRID */
@@ -65,9 +85,10 @@ main {
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
-  width: 100%;
+  width: 99.3%;
   height: 50rem;
   background-color: black;
+  border: 3px solid rgb(58, 205, 0);
 }
 
 .game-grid div {
@@ -86,12 +107,17 @@ main {
   align-items: flex-start;
   width: 100%;
   height: 35rem;
-  background-color: red;
+  /* background-color: red; */
 }
 
 .mute {
+  height: 3rem;
+  width: 7rem;
   margin-top: 0.5rem;
-  margin-right: 0.5rem;
+  font-family: 'Press Start 2P', cursive;
+  color: rgb(85, 215, 34);
+  background-color: black;
+  border: 3px solid rgb(58, 205, 0);
 }
 
 /* CHARACTER CLASSES */
