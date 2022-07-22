@@ -76,6 +76,8 @@ function init() {
 
   function gameover() {
     console.log('GAMEOVER FUNCTION HAS RUN')
+    audio.src = 'sounds/gameover.wav'
+    audio.play()
     gameState = 3
     console.log(gameState)
     clearInterval(invadersAuto)
