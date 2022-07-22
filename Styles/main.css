@@ -263,8 +263,15 @@ align-items: center;
 
 /* GAME CHARACTER CLASSES */
 
-.invader {
-  background-image: url('../images/invader.png');
+.invaderOne {
+  background-image: url('../images/invaderOne.png');
+  background-repeat:no-repeat;
+  background-size: 2.5rem;
+  background-position: center;
+}
+
+.invaderTwo {
+  background-image: url('../images/invaderTwo.png');
   background-repeat:no-repeat;
   background-size: 2.5rem;
   background-position: center;

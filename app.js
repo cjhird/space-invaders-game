@@ -1,15 +1,8 @@
 function init() {
 
-  // Think? - Game Functionality:
+  // ??? NOTES FOR THE READER
+  // ? The code is still a work-in-progress and needs to be refactored.
 
-  // Invaders need to move side to side and down the screen - automatically.
-  // Invaders need to disappear when shot by the spaceship.
-  // Spaceship needs to move only horizontally at the bottom end of screen
-  // spaceship needs to shoot
-  // Once the spaceship destroys the wave of invaders: game starts again or another wave/level
-  // Record game score - everytime an invader is shot the player receives points.
-  // Invaders will periodically drop bombs on the spaceship - if hit lose one life.
-  // When the player runs out of lives: restart game or go to gameover view.
 
 
   // Elements
@@ -23,17 +16,8 @@ function init() {
   const gameoverOverlay = document.querySelector('#gameover-overlay')
   const winnerOverlay = document.querySelector('#winner-overlay')
   const audio = document.querySelector('audio')
-  // Variables
-  // ? width = 11
-  // ? cellcount = width * width
-  // ? gameScore
-  // ? Player lives
-  // ? direction 
-  // ? invadersId
-  // ? spaceshipIndex
-  // ? invadersRemoved
-  // ? invaders array
 
+  // Variables
   const width = 11
   const cellCount = width * width
   const cells = []
@@ -47,6 +31,8 @@ function init() {
   let bombPositionX = 0
   let bombPositionY = 16
   let playerLives = 3
+  let invaderSound = 0
+  let invaderCostume = 0
   const invaders = [
     2,3,4,5,6,7,8,
     13,14,15,16,17,18,19
@@ -68,6 +54,8 @@ function init() {
     startOverlay.style.display = 'none'
     gameState = 2
     console.log(gameState)
+    audio.src = 'sounds/startSound.wav'
+    audio.play()
     createGrid()
     addInvaders()
     addSpaceship()
@@ -125,40 +113,34 @@ function init() {
     
   }
   
-  // ? Remove grid cells - reverse createGrid()
-  // function removeGrid() {
-  //   console.log('REMOVEGRID FUNCTION HAS RAN')
-  //   console.log(grid)
-  //   for (let i = 3; i < 124 ; i++) {
-  //     console.log(grid.children[i])
-  //     // grid.removeChild(grid.children[i])
-  //     grid[i].remove()
-  //     console.log('removegrid loop')
-  //   }
-  //   console.log(grid)
-  // }
-  
 
   // Execution
+
   // ?? CHANGE CHARACTER CLASSES
 
   // ? set invaders grid position - add class
   function addInvaders() {
     console.log('ADDINVADER FUNCTION RAN')
+    invaderCostume += 1
     for (let i = 0; i < invaders.length; i++) {
       if (!invadersRemoved.includes(i)) {
-        cells[invaders[i]].classList.add('invader')
+
+        if (invaderCostume % 2 !== 0) {
+          cells[invaders[i]].classList.add('invaderOne')
+        } else if (invaderCostume % 2 === 0) {
+          cells[invaders[i]].classList.add('invaderTwo')
+        }
       }
       // console.log('INVADER ADD FUNCTION LOOP')
     }
   }
   
-
   // ? clears invaders grid position - remove class
   function removeInvaders() {
     console.log('REMOVEINVADERS FUNCTION RAN')
     for (let i = 0; i < invaders.length; i++) {
-      cells[invaders[i]].classList.remove('invader')
+      cells[invaders[i]].classList.remove('invaderOne')
+      cells[invaders[i]].classList.remove('invaderTwo')
       // console.log('INVADER REMOVE FUNCTION LOOP')
     }
   }
@@ -175,22 +157,15 @@ function init() {
     console.log('REMOVESPACESHIP FUNCTION RAN')
   }
 
-  // if ( gameState === 2 ) {
-  //   console.log('FUNCTION HAS RAN AT INGAME')
-  // } else {
-  //   console.log('GAMESTATE HAS STOPPED FUNCTION')
-  // }
+
 
   // ??? GAME FUNCTIONS
 
   // ?? CHARACTER MOVEMENTS
 
   // ? Spaceship movement function
-  // const keyCode = event.keyCode
-  // const left = 37
-  // const right = 39
   // remove spaceship from current position
-  // check keycode on the event and match with direction using if else statements
+  // check keycode on the event and match with direction using switch statements
   // change value of spaceshipIndex
   // then add spaceship to current position
   // if spaceship reach left or right grid edge then add/remove from spaceshipIndex
@@ -224,7 +199,6 @@ function init() {
     
   }
   document.addEventListener('keydown', moveSpaceship)
-
 
   // ? Invader auto movement function
   // Still to do:
@@ -260,6 +234,16 @@ function init() {
     // INCREMENT INVADERS: move by one cell in current direction
     for (let i = 0; i < invaders.length; i++) {
       invaders[i] += direction
+    }
+
+    invaderSound += 1
+
+    if (invaderSound % 2 !== 0) {
+      audio.src = 'sounds/invaderOne.wav'
+      audio.play()
+    } else if (invaderSound % 2 === 0) {
+      audio.src = 'sounds/invaderTwo.wav'
+      audio.play()
     }
 
     addInvaders()
@@ -303,18 +287,6 @@ function init() {
 
   // ? invadersAuto = setInterval(moveInvaders, 800)
 
-
-
-
-
-
-
-
-
-
-
-
-
   // ? Shoot function
   function shoot(event) {
     let laserAuto
@@ -328,9 +300,30 @@ function init() {
         cells[currentLaserIndex].classList.add('laser')
       }
       // when laser collides with invader: remove invader and run explosion
-      if (cells[currentLaserIndex].classList.contains('invader')) {
+      if (cells[currentLaserIndex].classList.contains('invaderOne')) {
         cells[currentLaserIndex].classList.remove('laser')
-        cells[currentLaserIndex].classList.remove('invader')
+        cells[currentLaserIndex].classList.remove('invaderOne')
+        cells[currentLaserIndex].classList.add('explosion')
+        audio.src = 'sounds/invader-destroyed.wav'
+        audio.play()
+      
+        setTimeout(() => cells[currentLaserIndex].classList.remove('explosion'), 200)
+        clearInterval(laserAuto)
+      
+        // record destroyed invaders
+        const invaderRemoved = invaders.indexOf(currentLaserIndex)
+        invadersRemoved.push(invaderRemoved)
+        // console.log('INVADER HAS BEEN DESTROYED')
+        // console.log(`INVADERS DESTROYED = ${invadersRemoved}`)
+      
+        // update gameScore variable
+        gameScore += 100
+        scoreBoard.innerHTML = gameScore
+        // console.log('SCORE HAS BEEN UPDATED')
+      }
+      if (cells[currentLaserIndex].classList.contains('invaderTwo')) {
+        cells[currentLaserIndex].classList.remove('laser')
+        cells[currentLaserIndex].classList.remove('invaderTwo')
         cells[currentLaserIndex].classList.add('explosion')
         audio.src = 'sounds/invader-destroyed.wav'
         audio.play()
@@ -428,82 +421,13 @@ function init() {
         clearInterval(bombAuto)
       }
       
-      
-
     }
     bombAuto = setInterval(dropBomb, 400)
   }
 
-
-
-  // ----
-
-
   // setInterval(bomb, 3000)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-  // ? Gameover function
-  // game ends when
-  // then add gameover class to grid + innerhtml 'GAMEOVER'
-  // reset player lives to three
-  // reset game score to 0
-  // reset invader movement to start position
-  // reset spaceship movement to start position
-
-
-
   // Events
-
-  // ? when up arrow key is clicked run shoot function
-  // ? when left or right arrow keys are clicked run moveSpaceship function
-  // ? 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 }
 
