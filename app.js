@@ -377,7 +377,7 @@ function init() {
     let currentBombIndex = bombPositionX + bombPositionY
     console.log(currentBombIndex)
     function dropBomb() {
-      if  (currentBombIndex > 120) {
+      if  (currentBombIndex > 120 || gameState !== 2) {
         clearInterval(bombAuto)
       } else {
         cells[currentBombIndex].classList.remove('bomb')
