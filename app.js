@@ -15,7 +15,12 @@ function init() {
   // Elements
   const grid = document.querySelector('.game-grid')
   const scoreBoard = document.querySelector('.score')
-
+  const livesBoard = document.querySelector('.lives')
+  const startButton = document.querySelector('#start-btn')
+  const playagainButton = document.querySelector('#playagain-btn')
+  const startOverlay = document.querySelector('#start-overlay')
+  const gameoverOverlay = document.querySelector('#gameover-overlay')
+  const audio = document.querySelector('audio')
   // Variables
   // ? width = 11
   // ? cellcount = width * width
@@ -30,35 +35,89 @@ function init() {
   const width = 11
   const cellCount = width * width
   const cells = []
-  const audio = document.querySelector('audio')
   let invadersRemoved = []
   let currrentSpaceshipIndex = 115
   let rightPath = true
   let direction = 1
   let invadersAuto
+  let bombAuto
   let gameScore = 0
-  
-  // ? Generate grid cells
-  for (let i = 0; i < cellCount; i++) {
-    const cell = document.createElement('div')
-    // cell.innerText = i
-    cell.dataset.index = i
-    cells.push(cell)
-    grid.appendChild(cell)
-  }
-  console.log('GRID HAS BEEN CREATED!')
-  console.log(cells)
-
+  let bombPositionX = 0
+  let bombPositionY = 16
+  let playerLives = 3
   const invaders = [
     2,3,4,5,6,7,8,
     13,14,15,16,17,18,19
   ]
+
+  // ? Start game function
+  // player presses spacebar to start game
+  // reset player lives to three
+  // reset game score to 0
+  // reset invader movement to start position
+  // reset spaceship movement to start position
+  function startGame() {
+    console.log('GAME START FUNCTION HAS RUN')
+    console.log(grid)
+    gameoverOverlay.style.display = 'none'
+    startOverlay.style.display = 'none'
+    createGrid()
+    addInvaders()
+    addSpaceship()
+    invadersAuto = setInterval(moveInvaders, 800)
+    bombAuto = setInterval(bomb, 3000)
+  }
+  startButton.addEventListener('click', startGame)
+
+
+  function gameover() {
+    console.log('GAMEOVER FUNCTION HAS RUN')
+    clearInterval(invadersAuto)
+    clearInterval(bombAuto)
+    removeSpaceship()
+    removeInvaders()
+    gameoverOverlay.style.display = 'block'
+
+  }
+  playagainButton.addEventListener('click', startGame)
+
+
+
+  // ? Generate grid cells
+  
+  function createGrid() {
+    for (let i = 0; i < cellCount; i++) {
+      const cell = document.createElement('div')
+      // cell.innerText = i
+      cell.dataset.index = i
+      cells.push(cell)
+      grid.appendChild(cell)
+    }
+    console.log('GRID HAS BEEN CREATED!')
+    
+    
+  }
+  
+  // ? Remove grid cells - reverse createGrid()
+  // function removeGrid() {
+  //   console.log('REMOVEGRID FUNCTION HAS RAN')
+  //   console.log(grid)
+  //   for (let i = 3; i < 124 ; i++) {
+  //     console.log(grid.children[i])
+  //     // grid.removeChild(grid.children[i])
+  //     grid[i].remove()
+  //     console.log('removegrid loop')
+  //   }
+  //   console.log(grid)
+  // }
+  
 
   // Execution
   // ?? CHANGE CHARACTER CLASSES
 
   // ? set invaders grid position - add class
   function addInvaders() {
+    console.log('ADDINVADER FUNCTION RAN')
     for (let i = 0; i < invaders.length; i++) {
       if (!invadersRemoved.includes(i)) {
         cells[invaders[i]].classList.add('invader')
@@ -66,10 +125,11 @@ function init() {
       // console.log('INVADER ADD FUNCTION LOOP')
     }
   }
-  addInvaders()
+  
 
   // ? clears invaders grid position - remove class
   function removeInvaders() {
+    console.log('REMOVEINVADERS FUNCTION RAN')
     for (let i = 0; i < invaders.length; i++) {
       cells[invaders[i]].classList.remove('invader')
       // console.log('INVADER REMOVE FUNCTION LOOP')
@@ -77,14 +137,16 @@ function init() {
   }
 
   // ? add spaceship class
-  cells[currrentSpaceshipIndex].classList.add('spaceship')
+  function addSpaceship() {
+    cells[currrentSpaceshipIndex].classList.add('spaceship')
+    console.log('ADDSPACESHIP FUNCTION RAN')
+  }
   // ? remove spaceship class
   // takes in a position argument then removes the spaceship class to given cell
-
-  // ? remove laser class
-  // takes in a position argument then adds the laser class to given cell
-  // ? add laser class
-  // takes in a position argument then removes the laser class to given cell
+  function removeSpaceship() {
+    cells[currrentSpaceshipIndex].classList.remove('spaceship')
+    console.log('REMOVESPACESHIP FUNCTION RAN')
+  }
 
 
   // ?? CHARACTER MOVEMENTS
@@ -100,13 +162,22 @@ function init() {
   // if spaceship reach left or right grid edge then add/remove from spaceshipIndex
 
   function moveSpaceship(event) {
+    console.log('MOVESPACESHIP FUNCTION RAN')
     cells[currrentSpaceshipIndex].classList.remove('spaceship')
     switch (event.key) {
       case 'ArrowLeft' :
-        if (currrentSpaceshipIndex % width !== 0) currrentSpaceshipIndex -= 1
+        if (currrentSpaceshipIndex % width !== 0) {
+          currrentSpaceshipIndex -= 1
+          bombPositionX -= 1
+          console.log(bombPositionX)
+        }
         break
       case 'ArrowRight' :
-        if (currrentSpaceshipIndex % width < width - 1) currrentSpaceshipIndex += 1
+        if (currrentSpaceshipIndex % width < width - 1) {
+          currrentSpaceshipIndex += 1
+          bombPositionX += 1
+          console.log(bombPositionX)
+        } 
         break
     }
     // console.log('SPACESHIP HAS MOVED')
@@ -131,6 +202,8 @@ function init() {
         direction = - 1
         rightPath = false
       }
+      bombPositionY += width
+      console.log(bombPositionY)
     }
 
     // GRID EDGE LEFT: move down plus one right
@@ -140,6 +213,8 @@ function init() {
         direction = 1
         rightPath = true
       }
+      bombPositionY += width
+      console.log(bombPositionY)
     }
 
     // INCREMENT INVADERS: move by one cell in current direction
@@ -154,25 +229,51 @@ function init() {
     // Invaders breach Spaceship
     if (cells[currrentSpaceshipIndex].classList.contains('invader', 'spaceship')) {
       // update game view to 'GAMEOVER' screen
-      window.alert('GAMEOVER: spaceship is breached')
+      console.log('GAMEOVER: spaceship is breached')
       clearInterval(invadersAuto)
+      gameover()
     }
 
     // Invaders reach bottom of grid
     for (let i = 0; i < invaders.length; i++) {
       if (invaders[i] > (cells.length)) {
-        window.alert('GAMEOVER: invaders reach grid bottom')
+        console.log('GAMEOVER: invaders reach grid bottom')
         clearInterval(invadersAuto)
+        clearInterval(bombAuto)
+        gameover()
       }
     }
 
     // Invaders destroyed, Spaceship/Player wins
     if (invadersRemoved.length === invaders.length) {
-      window.alert('PLAYER WINS: all invaders have been destroyed')
+      console.log('PLAYER WINS: all invaders have been destroyed')
       clearInterval(invadersAuto)
+      clearInterval(bombAuto)
+      gameover()
+    }
+
+    // Player runs out of lives
+    if (playerLives === 0) {
+      console.log('GAMEOVER: player is out of lives')
+      clearInterval(invadersAuto)
+      clearInterval(bombAuto)
+      gameover()
     }
   }
-  invadersAuto = setInterval(moveInvaders, 800)
+
+  // ? invadersAuto = setInterval(moveInvaders, 800)
+
+
+
+
+
+
+
+
+
+
+
+
 
   // ? Shoot function
   function shoot(event) {
@@ -239,7 +340,54 @@ function init() {
 
 
   // ? Invader Bombing function
-  // 
+  // Periodically drop bombs from same column as spaceship + and same row as invaders
+  // If bombs collide with spaceship: explode animation, play sound and remove one life.
+
+  function bomb() {
+    console.log('BOMB FUNCTION RAN')
+    let bombAuto
+    // let bombStart = currrentSpaceshipIndex
+    let currentBombIndex = bombPositionX + bombPositionY
+    console.log(currentBombIndex)
+    function dropBomb() {
+      if  (currentBombIndex > 120) {
+        clearInterval(bombAuto)
+      } else {
+        cells[currentBombIndex].classList.remove('bomb')
+        currentBombIndex += width
+        cells[currentBombIndex].classList.add('bomb')
+      }
+      if (cells[currentBombIndex].classList.contains('laser')) {
+        cells[currentBombIndex].classList.remove('laser')
+        cells[currentBombIndex].classList.remove('bomb')
+        cells[currentBombIndex].classList.add('explosion')
+        audio.src = 'sounds/spaceship-destroyed.wav'
+        audio.play()
+
+        console.log('BOMB AND LASER COLLISION')
+
+        setTimeout(() => cells[currentBombIndex].classList.remove('explosion'), 200)
+        clearInterval(bombAuto)
+      }
+      if (cells[currentBombIndex].classList.contains('spaceship')) {
+        cells[currentBombIndex].classList.remove('bomb')
+        cells[currentBombIndex].classList.add('explosion')
+        playerLives -= 1 
+        livesBoard.innerHTML = playerLives
+        audio.src = 'sounds/spaceship-destroyed.wav'
+        audio.play()
+
+        setTimeout(() => cells[currentBombIndex].classList.remove('explosion'), 200)
+        clearInterval(bombAuto)
+      }
+      
+      
+
+    }
+    bombAuto = setInterval(dropBomb, 400)
+  }
+
+  // setInterval(bomb, 3000)
 
 
 
@@ -268,12 +416,7 @@ function init() {
 
 
 
-  // ? Start game function
-  // player presses spacebar to start game
-  // reset player lives to three
-  // reset game score to 0
-  // reset invader movement to start position
-  // reset spaceship movement to start position
+  
 
   // ? Gameover function
   // game ends when
