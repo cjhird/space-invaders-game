@@ -114,7 +114,6 @@ align-items: center;
   bottom: 0;
   background-color: black;
   z-index: 2;
-  cursor: pointer;
 }
 
 #start-btn {
@@ -125,6 +124,7 @@ align-items: center;
   color: rgb(85, 215, 34);
   background-color: black;
   border: 3px solid rgb(58, 205, 0);
+  cursor: pointer;
 }
 
 #overlay-box {
@@ -153,7 +153,6 @@ align-items: center;
   bottom: 0;
   background-color: black;
   z-index: 2;
-  cursor: pointer;
 }
 
 #gameover-box {
@@ -177,6 +176,7 @@ align-items: center;
   color: rgb(85, 215, 34);
   background-color: black;
   border: 3px solid rgb(58, 205, 0);
+  cursor: pointer;
 }
 
 /* BOTTOM */
@@ -190,15 +190,6 @@ align-items: center;
   /* background-color: red; */
 }
 
-.mute {
-  height: 3rem;
-  width: 7rem;
-  margin-top: 0.5rem;
-  font-family: 'Press Start 2P', cursive;
-  color: rgb(85, 215, 34);
-  background-color: black;
-  border: 3px solid rgb(58, 205, 0);
-}
 
 /* CHARACTER CLASSES */
 

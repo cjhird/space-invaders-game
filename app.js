@@ -51,7 +51,7 @@ function init() {
   ]
 
   // gameState - 1 = start; 2 = in-game; 3 = gameover
-  let gameState = 0
+  let gameState = 1
 
   // ? Start game function
   // player presses spacebar to start game
@@ -61,9 +61,10 @@ function init() {
   // reset spaceship movement to start position
   function startGame() {
     console.log('GAME START FUNCTION HAS RUN')
-    console.log(grid)
     gameoverOverlay.style.display = 'none'
     startOverlay.style.display = 'none'
+    gameState = 2
+    console.log(gameState)
     createGrid()
     addInvaders()
     addSpaceship()
@@ -75,6 +76,8 @@ function init() {
 
   function gameover() {
     console.log('GAMEOVER FUNCTION HAS RUN')
+    gameState = 3
+    console.log(gameState)
     clearInterval(invadersAuto)
     clearInterval(bombAuto)
     removeSpaceship()
@@ -82,7 +85,12 @@ function init() {
     gameoverOverlay.style.display = 'flex'
   }
 
-  playagainButton.addEventListener('click', startGame)
+  function playAgain() {
+    console.log('PLAYAGAIN BUTTON CLICKED')
+    location.reload()
+  }
+
+  playagainButton.addEventListener('click', playAgain)
   // ? Generate grid cells
   
   function createGrid() {
@@ -94,7 +102,6 @@ function init() {
       grid.appendChild(cell)
     }
     console.log('GRID HAS BEEN CREATED!')
-    
     
   }
   
@@ -148,6 +155,13 @@ function init() {
     console.log('REMOVESPACESHIP FUNCTION RAN')
   }
 
+  // if ( gameState === 2 ) {
+  //   console.log('FUNCTION HAS RAN AT INGAME')
+  // } else {
+  //   console.log('GAMESTATE HAS STOPPED FUNCTION')
+  // }
+
+  // ??? GAME FUNCTIONS
 
   // ?? CHARACTER MOVEMENTS
 
@@ -162,26 +176,32 @@ function init() {
   // if spaceship reach left or right grid edge then add/remove from spaceshipIndex
 
   function moveSpaceship(event) {
-    console.log('MOVESPACESHIP FUNCTION RAN')
-    cells[currrentSpaceshipIndex].classList.remove('spaceship')
-    switch (event.key) {
-      case 'ArrowLeft' :
-        if (currrentSpaceshipIndex % width !== 0) {
-          currrentSpaceshipIndex -= 1
-          bombPositionX -= 1
-          console.log(bombPositionX)
-        }
-        break
-      case 'ArrowRight' :
-        if (currrentSpaceshipIndex % width < width - 1) {
-          currrentSpaceshipIndex += 1
-          bombPositionX += 1
-          console.log(bombPositionX)
-        } 
-        break
+    if ( gameState === 2 ) {
+      console.log('FUNCTION HAS RAN AT INGAME')
+      console.log('MOVESPACESHIP FUNCTION RAN')
+      cells[currrentSpaceshipIndex].classList.remove('spaceship')
+      switch (event.key) {
+        case 'ArrowLeft' :
+          if (currrentSpaceshipIndex % width !== 0) {
+            currrentSpaceshipIndex -= 1
+            bombPositionX -= 1
+            console.log(bombPositionX)
+          }
+          break
+        case 'ArrowRight' :
+          if (currrentSpaceshipIndex % width < width - 1) {
+            currrentSpaceshipIndex += 1
+            bombPositionX += 1
+            console.log(bombPositionX)
+          } 
+          break
+      }
+      // console.log('SPACESHIP HAS MOVED')
+      cells[currrentSpaceshipIndex].classList.add('spaceship')
+    } else {
+      console.log('GAMESTATE HAS STOPPED FUNCTION')
     }
-    // console.log('SPACESHIP HAS MOVED')
-    cells[currrentSpaceshipIndex].classList.add('spaceship')
+    
   }
   document.addEventListener('keydown', moveSpaceship)
 
@@ -280,7 +300,7 @@ function init() {
     let laserAuto
     let currentLaserIndex = currrentSpaceshipIndex
     function moveLaser() {
-      if (currentLaserIndex <= 0) {
+      if (currentLaserIndex < 0 || gameState !== 2 ) {
         clearInterval(laserAuto)
       } else { 
         cells[currentLaserIndex].classList.remove('laser')
@@ -295,7 +315,7 @@ function init() {
         audio.src = 'sounds/invader-destroyed.wav'
         audio.play()
       
-        setTimeout(() => cells[currentLaserIndex].classList.remove('explosion'), 300)
+        setTimeout(() => cells[currentLaserIndex].classList.remove('explosion'), 200)
         clearInterval(laserAuto)
       
         // record destroyed invaders
@@ -311,15 +331,22 @@ function init() {
       }
     }
 
-    switch (event.key) {
-      case 'ArrowUp':
-        audio.src = 'sounds/laser.wav'
-        audio.play()
-        laserAuto = setInterval(moveLaser, 100)
+    if ( gameState === 2 ) {
+      console.log('FUNCTION HAS RAN AT INGAME')
+      switch (event.key) {
+        case 'ArrowUp':
+          audio.src = 'sounds/laser.wav'
+          audio.play()
+          laserAuto = setInterval(moveLaser, 100)
+      }
+    } else {
+      console.log('GAMESTATE HAS STOPPED FUNCTION')
     }
+    
   }
 
   document.addEventListener('keydown', shoot)
+
     
   // laserIndex variable = spaceshipIndex
   // ? laser movement function inside shoot function
@@ -386,6 +413,11 @@ function init() {
     }
     bombAuto = setInterval(dropBomb, 400)
   }
+
+
+
+  // ----
+
 
   // setInterval(bomb, 3000)
 
