@@ -18,8 +18,10 @@ function init() {
   const livesBoard = document.querySelector('.lives')
   const startButton = document.querySelector('#start-btn')
   const playagainButton = document.querySelector('#playagain-btn')
+  const winnerPlayButton = document.querySelector('#winnerplay-btn')
   const startOverlay = document.querySelector('#start-overlay')
   const gameoverOverlay = document.querySelector('#gameover-overlay')
+  const winnerOverlay = document.querySelector('#winner-overlay')
   const audio = document.querySelector('audio')
   // Variables
   // ? width = 11
@@ -62,6 +64,7 @@ function init() {
   function startGame() {
     console.log('GAME START FUNCTION HAS RUN')
     gameoverOverlay.style.display = 'none'
+    winnerOverlay.style.display = 'none'
     startOverlay.style.display = 'none'
     gameState = 2
     console.log(gameState)
@@ -93,6 +96,21 @@ function init() {
   }
 
   playagainButton.addEventListener('click', playAgain)
+
+  function winner() {
+    console.log('WINNER FUNCTION HAS RUN')
+    audio.src = 'sounds/winner.wav'
+    audio.play()
+    gameState = 3
+    console.log(gameState)
+    clearInterval(invadersAuto)
+    clearInterval(bombAuto)
+    removeSpaceship()
+    removeInvaders()
+    winnerOverlay.style.display = 'flex'
+  }
+
+  winnerPlayButton.addEventListener('click', playAgain)
   // ? Generate grid cells
   
   function createGrid() {
@@ -271,7 +289,7 @@ function init() {
       console.log('PLAYER WINS: all invaders have been destroyed')
       clearInterval(invadersAuto)
       clearInterval(bombAuto)
-      gameover()
+      winner()
     }
 
     // Player runs out of lives
