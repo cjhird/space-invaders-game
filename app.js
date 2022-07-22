@@ -50,6 +50,9 @@ function init() {
     13,14,15,16,17,18,19
   ]
 
+  // gameState - 1 = start; 2 = in-game; 3 = gameover
+  let gameState = 0
+
   // ? Start game function
   // player presses spacebar to start game
   // reset player lives to three
@@ -76,13 +79,10 @@ function init() {
     clearInterval(bombAuto)
     removeSpaceship()
     removeInvaders()
-    gameoverOverlay.style.display = 'block'
-
+    gameoverOverlay.style.display = 'flex'
   }
+
   playagainButton.addEventListener('click', startGame)
-
-
-
   // ? Generate grid cells
   
   function createGrid() {
