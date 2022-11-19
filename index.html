@@ -1,71 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SPACE INVADERS</title>
-  <link rel="icon" type="image/x-icon" href="images/favicon.ico">
-  <link rel="stylesheet" href="Styles/main.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-  <link rel="icon" type="image/x-icon" href="images/favicon.ico">
-  <script src="app.js"></script>
-</head>
-<body>
-  <main>
-
-    <!-- TITLE -->
-    <div class="top">
-      <div class="logo-background">
-        <img src="images/logo.png" alt="logo">
-      </div>
-    </div>
-
-    <!-- SCORE & LIVES -->
-    <div class="mid-top">
-      <div class="score-div">
-        SCORE: <span class="score">0000</span>
-      </div>
-      <div class="lives-div">
-        LIVES: <span class="lives">3</span>
-      </div>
-    </div>
-
-    <!-- GAME GRID -->
-    <div class="game-grid">
-      <div id="start-overlay">
-        <div id="overlay-box">
-          <p id="overlay-title">SPACE INVADERS</p>
-          <p id="overlay-in">Use LEFT or RIGHT arrow keys to move and UP to shoot.</p> 
-        <button id="start-btn">START GAME</button>
-        </div>
-        
-      </div>
-
-      <!-- GAME GRID CELLS ARE GENERATE HERE -->
-
-      <div id="gameover-overlay">
-        <div id="gameover-box">
-          <p>GAMEOVER</p>
-          <button id="playagain-btn">RESTART</button>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SPACE INVADERS</title>
+    <link rel="icon" type="image/x-icon" href="images/favicon.ico" />
+    <link rel="stylesheet" href="Styles/main.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" type="image/x-icon" href="images/favicon.ico" />
+    <script src="app.js"></script>
+  </head>
+  <body>
+    <main>
+      <!-- TITLE -->
+      <div class="top">
+        <div class="logo-background">
+          <img src="images/logo.png" alt="logo" />
         </div>
       </div>
 
-      <div id="winner-overlay">
-        <div id="winner-box">
-          <p>WINNER</p>
-          <button id="winnerplay-btn">PLAY AGAIN</button>
-        </div>
+      <!-- SCORE & LIVES -->
+      <div class="mid-top">
+        <div class="score-div">SCORE: <span class="score">0000</span></div>
+        <div class="lives-div">LIVES: <span class="lives">3</span></div>
       </div>
-      <audio></audio>
-    </div>
 
-    <!-- BOTTOM -->
-    <div class="bottom">
-    </div>
+      <!-- GAME GRID -->
+      <div class="game-grid">
+        <div id="start-overlay">
+          <div id="overlay-box">
+            <p id="overlay-title">SPACE INVADERS</p>
+            <p id="overlay-in">
+              Use LEFT or RIGHT arrow keys to move and UP to shoot.
+            </p>
+            <button id="start-btn">START GAME</button>
+          </div>
+        </div>
 
-  </main>
-</body>
+        <!-- GAME GRID CELLS ARE GENERATE HERE -->
+
+        <div id="gameover-overlay">
+          <div id="gameover-box">
+            <p>GAMEOVER</p>
+            <button id="playagain-btn">RESTART</button>
+          </div>
+        </div>
+
+        <div id="winner-overlay">
+          <div id="winner-box">
+            <p>WINNER</p>
+            <button id="winnerplay-btn">PLAY AGAIN</button>
+          </div>
+        </div>
+        <audio></audio>
+      </div>
+
+      <!-- BOTTOM -->
+      <div class="bottom"></div>
+    </main>
+  </body>
 </html>
