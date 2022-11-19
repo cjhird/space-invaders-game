@@ -1,5 +1,5 @@
 function init() {
-  // Elements
+  // HTML ELEMENTS
   const grid = document.querySelector('.game-grid')
   const scoreBoard = document.querySelector('.score')
   const livesBoard = document.querySelector('.lives')
@@ -11,7 +11,7 @@ function init() {
   const winnerOverlay = document.querySelector('#winner-overlay')
   const audio = document.querySelector('audio')
 
-  // Variables
+  // VARIABLES
   const width = 11
   const cellCount = width * width
   const cells = []
@@ -27,17 +27,11 @@ function init() {
   let playerLives = 3
   let invaderSound = 0
   let invaderCostume = 0
+  let gameState = 1
   const invaders = [2, 3, 4, 5, 6, 7, 8, 13, 14, 15, 16, 17, 18, 19]
 
-  // gameState - 1 = start; 2 = in-game; 3 = gameover
-  let gameState = 1
+  // GAME STATE FUNCTIONS
 
-  // ? Start game function
-  // player presses spacebar to start game
-  // reset player lives to three
-  // reset game score to 0
-  // reset invader movement to start position
-  // reset spaceship movement to start position
   function startGame() {
     console.log('GAME START FUNCTION HAS RUN')
     gameoverOverlay.style.display = 'none'
@@ -89,7 +83,8 @@ function init() {
   }
 
   winnerPlayButton.addEventListener('click', playAgain)
-  // ? Generate grid cells
+
+  // GAME GRID CREATION
 
   function createGrid() {
     for (let i = 0; i < cellCount; i++) {
@@ -102,11 +97,8 @@ function init() {
     console.log('GRID HAS BEEN CREATED!')
   }
 
-  // Execution
+  // CHANGE CHARACTER CLASSES
 
-  // ?? CHANGE CHARACTER CLASSES
-
-  // ? set invaders grid position - add class
   function addInvaders() {
     console.log('ADDINVADER FUNCTION RAN')
     invaderCostume += 1
@@ -118,43 +110,28 @@ function init() {
           cells[invaders[i]].classList.add('invaderTwo')
         }
       }
-      // console.log('INVADER ADD FUNCTION LOOP')
     }
   }
-
-  // ? clears invaders grid position - remove class
   function removeInvaders() {
     console.log('REMOVEINVADERS FUNCTION RAN')
     for (let i = 0; i < invaders.length; i++) {
       cells[invaders[i]].classList.remove('invaderOne')
       cells[invaders[i]].classList.remove('invaderTwo')
-      // console.log('INVADER REMOVE FUNCTION LOOP')
     }
   }
 
-  // ? add spaceship class
   function addSpaceship() {
     cells[currrentSpaceshipIndex].classList.add('spaceship')
     console.log('ADDSPACESHIP FUNCTION RAN')
   }
-  // ? remove spaceship class
-  // takes in a position argument then removes the spaceship class to given cell
   function removeSpaceship() {
     cells[currrentSpaceshipIndex].classList.remove('spaceship')
     console.log('REMOVESPACESHIP FUNCTION RAN')
   }
 
-  // ??? GAME FUNCTIONS
+  // ? GAME FUNCTIONS
 
-  // ?? CHARACTER MOVEMENTS
-
-  // ? Spaceship movement function
-  // remove spaceship from current position
-  // check keycode on the event and match with direction using switch statements
-  // change value of spaceshipIndex
-  // then add spaceship to current position
-  // if spaceship reach left or right grid edge then add/remove from spaceshipIndex
-
+  // SPACESHIP MOVEMENT
   function moveSpaceship(event) {
     if (gameState === 2) {
       console.log('FUNCTION HAS RAN AT INGAME')
@@ -176,7 +153,6 @@ function init() {
           }
           break
       }
-      // console.log('SPACESHIP HAS MOVED')
       cells[currrentSpaceshipIndex].classList.add('spaceship')
     } else {
       console.log('GAMESTATE HAS STOPPED FUNCTION')
@@ -184,15 +160,11 @@ function init() {
   }
   document.addEventListener('keydown', moveSpaceship)
 
-  // ? Invader auto movement function
-  // Still to do:
-  // if spaceship class contains bomb: then remove life from playerLives
-
+  // INVADER MOVEMENT
   function moveInvaders() {
     const leftEdge = invaders[0] % width === 0
     const rightEdge = invaders[invaders.length - 1] % width === width - 1
     removeInvaders()
-    // console.log('INVADERS REMOVED')
     // GRID EDGE RIGHT: move down plus one left
     if (rightEdge && rightPath) {
       for (let i = 0; i < invaders.length; i++) {
@@ -203,7 +175,6 @@ function init() {
       bombPositionY += width
       console.log(bombPositionY)
     }
-
     // GRID EDGE LEFT: move down plus one right
     if (leftEdge && !rightPath) {
       for (let i = 0; i < invaders.length; i++) {
@@ -214,14 +185,11 @@ function init() {
       bombPositionY += width
       console.log(bombPositionY)
     }
-
     // INCREMENT INVADERS: move by one cell in current direction
     for (let i = 0; i < invaders.length; i++) {
       invaders[i] += direction
     }
-
     invaderSound += 1
-
     if (invaderSound % 2 !== 0) {
       audio.src = 'sounds/invaderOne.wav'
       audio.play()
@@ -229,11 +197,9 @@ function init() {
       audio.src = 'sounds/invaderTwo.wav'
       audio.play()
     }
-
     addInvaders()
 
-    // ENDGAME SCENARIOS: gameover or player wins
-
+    // ? ENDGAME SCENARIOS
     // Invaders breach Spaceship
     if (
       cells[currrentSpaceshipIndex].classList.contains('invader', 'spaceship')
