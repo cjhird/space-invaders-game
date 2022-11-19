@@ -15,6 +15,7 @@ function init() {
   const width = 11
   const cellCount = width * width
   const cells = []
+  const invaders = [2, 3, 4, 5, 6, 7, 8, 13, 14, 15, 16, 17, 18, 19]
   let invadersRemoved = []
   let currrentSpaceshipIndex = 115
   let rightPath = true
@@ -28,7 +29,6 @@ function init() {
   let invaderSound = 0
   let invaderCostume = 0
   let gameState = 1
-  const invaders = [2, 3, 4, 5, 6, 7, 8, 13, 14, 15, 16, 17, 18, 19]
 
   // GAME STATE FUNCTIONS
 
@@ -199,7 +199,7 @@ function init() {
     }
     addInvaders()
 
-    // ? ENDGAME SCENARIOS
+    // ENDGAME SCENARIOS
     // Invaders breach Spaceship
     if (
       cells[currrentSpaceshipIndex].classList.contains('invader', 'spaceship')
@@ -219,7 +219,6 @@ function init() {
         gameover()
       }
     }
-
     // Invaders destroyed, Spaceship/Player wins
     if (invadersRemoved.length === invaders.length) {
       console.log('PLAYER WINS: all invaders have been destroyed')
@@ -227,7 +226,6 @@ function init() {
       clearInterval(bombAuto)
       winner()
     }
-
     // Player runs out of lives
     if (playerLives === 0) {
       console.log('GAMEOVER: player is out of lives')
@@ -237,9 +235,7 @@ function init() {
     }
   }
 
-  // ? invadersAuto = setInterval(moveInvaders, 800)
-
-  // ? Shoot function
+  // SHOOT FUNCTION
   function shoot(event) {
     let laserAuto
     let currentLaserIndex = currrentSpaceshipIndex
@@ -251,30 +247,22 @@ function init() {
         currentLaserIndex -= width
         cells[currentLaserIndex].classList.add('laser')
       }
-      // when laser collides with invader: remove invader and run explosion
+      //laser collides with invader
       if (cells[currentLaserIndex].classList.contains('invaderOne')) {
         cells[currentLaserIndex].classList.remove('laser')
         cells[currentLaserIndex].classList.remove('invaderOne')
         cells[currentLaserIndex].classList.add('explosion')
         audio.src = 'sounds/invader-destroyed.wav'
         audio.play()
-
         setTimeout(
           () => cells[currentLaserIndex].classList.remove('explosion'),
           200
         )
         clearInterval(laserAuto)
-
-        // record destroyed invaders
         const invaderRemoved = invaders.indexOf(currentLaserIndex)
         invadersRemoved.push(invaderRemoved)
-        // console.log('INVADER HAS BEEN DESTROYED')
-        // console.log(`INVADERS DESTROYED = ${invadersRemoved}`)
-
-        // update gameScore variable
         gameScore += 100
         scoreBoard.innerHTML = gameScore
-        // console.log('SCORE HAS BEEN UPDATED')
       }
       if (cells[currentLaserIndex].classList.contains('invaderTwo')) {
         cells[currentLaserIndex].classList.remove('laser')
@@ -282,23 +270,15 @@ function init() {
         cells[currentLaserIndex].classList.add('explosion')
         audio.src = 'sounds/invader-destroyed.wav'
         audio.play()
-
         setTimeout(
           () => cells[currentLaserIndex].classList.remove('explosion'),
           200
         )
         clearInterval(laserAuto)
-
-        // record destroyed invaders
         const invaderRemoved = invaders.indexOf(currentLaserIndex)
         invadersRemoved.push(invaderRemoved)
-        // console.log('INVADER HAS BEEN DESTROYED')
-        // console.log(`INVADERS DESTROYED = ${invadersRemoved}`)
-
-        // update gameScore variable
         gameScore += 100
         scoreBoard.innerHTML = gameScore
-        // console.log('SCORE HAS BEEN UPDATED')
       }
     }
 
@@ -316,26 +296,6 @@ function init() {
   }
 
   document.addEventListener('keydown', shoot)
-
-  // laserIndex variable = spaceshipIndex
-  // ? Shoot / laser movement function
-  // remove laser class from current position
-  // change laser index value
-  // add laser class to current position
-  // if current laserIndex cell contains invader class
-  // then remove laser class
-  // also remove invader class
-  // add boom class to cell - use set timeout to remove class after 0.3 seconds
-  // remove destroyed invader from invaders array
-  // push invader to invadersRemoved array
-  // update gameScore variable - add 10 points
-  // update scoreBoard with gameScore use innerHTML
-  // console log invadersRemoved
-  // use set interval to repeat laser movement function - laser moves up grid
-
-  // ? Invader Bombing function
-  // Periodically drop bombs from same column as spaceship + and same row as invaders
-  // If bombs collide with spaceship: explode animation, play sound and remove one life.
 
   function bomb() {
     console.log('BOMB FUNCTION RAN')
@@ -384,9 +344,7 @@ function init() {
     bombAuto = setInterval(dropBomb, 400)
   }
 
-  // setInterval(bomb, 3000)
-
-  // Events
+  // EVENTS
 }
 
 window.addEventListener('DOMContentLoaded', init)
