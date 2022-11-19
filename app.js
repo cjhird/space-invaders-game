@@ -31,7 +31,6 @@ function init() {
   let gameState = 1
 
   // GAME STATE FUNCTIONS
-
   function startGame() {
     console.log('GAME START FUNCTION HAS RUN')
     gameoverOverlay.style.display = 'none'
@@ -47,8 +46,6 @@ function init() {
     invadersAuto = setInterval(moveInvaders, 800)
     bombAuto = setInterval(bomb, 3000)
   }
-  startButton.addEventListener('click', startGame)
-
   function gameover() {
     console.log('GAMEOVER FUNCTION HAS RUN')
     audio.src = 'sounds/gameover.wav'
@@ -61,14 +58,10 @@ function init() {
     removeInvaders()
     gameoverOverlay.style.display = 'flex'
   }
-
   function playAgain() {
     console.log('PLAYAGAIN BUTTON CLICKED')
     location.reload()
   }
-
-  playagainButton.addEventListener('click', playAgain)
-
   function winner() {
     console.log('WINNER FUNCTION HAS RUN')
     audio.src = 'sounds/winner.wav'
@@ -82,10 +75,7 @@ function init() {
     winnerOverlay.style.display = 'flex'
   }
 
-  winnerPlayButton.addEventListener('click', playAgain)
-
   // GAME GRID CREATION
-
   function createGrid() {
     for (let i = 0; i < cellCount; i++) {
       const cell = document.createElement('div')
@@ -98,7 +88,6 @@ function init() {
   }
 
   // CHANGE CHARACTER CLASSES
-
   function addInvaders() {
     console.log('ADDINVADER FUNCTION RAN')
     invaderCostume += 1
@@ -119,7 +108,6 @@ function init() {
       cells[invaders[i]].classList.remove('invaderTwo')
     }
   }
-
   function addSpaceship() {
     cells[currrentSpaceshipIndex].classList.add('spaceship')
     console.log('ADDSPACESHIP FUNCTION RAN')
@@ -128,8 +116,6 @@ function init() {
     cells[currrentSpaceshipIndex].classList.remove('spaceship')
     console.log('REMOVESPACESHIP FUNCTION RAN')
   }
-
-  // ? GAME FUNCTIONS
 
   // SPACESHIP MOVEMENT
   function moveSpaceship(event) {
@@ -158,7 +144,6 @@ function init() {
       console.log('GAMESTATE HAS STOPPED FUNCTION')
     }
   }
-  document.addEventListener('keydown', moveSpaceship)
 
   // INVADER MOVEMENT
   function moveInvaders() {
@@ -281,7 +266,6 @@ function init() {
         scoreBoard.innerHTML = gameScore
       }
     }
-
     if (gameState === 2) {
       console.log('FUNCTION HAS RAN AT INGAME')
       switch (event.key) {
@@ -295,12 +279,9 @@ function init() {
     }
   }
 
-  document.addEventListener('keydown', shoot)
-
   function bomb() {
     console.log('BOMB FUNCTION RAN')
     let bombAuto
-    // let bombStart = currrentSpaceshipIndex
     let currentBombIndex = bombPositionX + bombPositionY
     console.log(currentBombIndex)
     function dropBomb() {
@@ -317,9 +298,7 @@ function init() {
         cells[currentBombIndex].classList.add('explosion')
         audio.src = 'sounds/spaceship-destroyed.wav'
         audio.play()
-
         console.log('BOMB AND LASER COLLISION')
-
         setTimeout(
           () => cells[currentBombIndex].classList.remove('explosion'),
           200
@@ -333,7 +312,6 @@ function init() {
         livesBoard.innerHTML = playerLives
         audio.src = 'sounds/spaceship-destroyed.wav'
         audio.play()
-
         setTimeout(
           () => cells[currentBombIndex].classList.remove('explosion'),
           200
@@ -345,6 +323,11 @@ function init() {
   }
 
   // EVENTS
+  startButton.addEventListener('click', startGame)
+  playagainButton.addEventListener('click', playAgain)
+  winnerPlayButton.addEventListener('click', playAgain)
+  document.addEventListener('keydown', moveSpaceship)
+  document.addEventListener('keydown', shoot)
 }
 
 window.addEventListener('DOMContentLoaded', init)
