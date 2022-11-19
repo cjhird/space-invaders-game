@@ -56,6 +56,8 @@ function init() {
     clearInterval(bombAuto)
     removeSpaceship()
     removeInvaders()
+    // remove lasers and bombs from game grid
+    removeMunitions()
     gameoverOverlay.style.display = 'flex'
   }
   function playAgain() {
@@ -72,6 +74,7 @@ function init() {
     clearInterval(bombAuto)
     removeSpaceship()
     removeInvaders()
+    removeMunitions()
     winnerOverlay.style.display = 'flex'
   }
 
@@ -115,6 +118,10 @@ function init() {
   function removeSpaceship() {
     cells[currrentSpaceshipIndex].classList.remove('spaceship')
     console.log('REMOVESPACESHIP FUNCTION RAN')
+  }
+  function removeMunitions() {
+    console.log('REMOVE MUNITIONS RAN')
+    // cells.style.display = 'none'
   }
 
   // SPACESHIP MOVEMENT
